@@ -4,6 +4,7 @@ class PizzasController < ApplicationController
   # GET /pizzas or /pizzas.json
   def index
     @pizzas = Pizza.all
+    render json: @pizzas
   end
 
   # GET /pizzas/1 or /pizzas/1.json
