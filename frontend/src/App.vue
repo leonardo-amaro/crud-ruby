@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Cardapio from './components/Cardapio.vue';
+import PizzaForm from './components/PizzaForm.vue';
 
 </script>
 
@@ -7,6 +8,7 @@ import Cardapio from './components/Cardapio.vue';
   <h1>Pizzaria CRUD</h1>
   <main>
     <Cardapio />
+    <PizzaForm />
   </main>
 </template>
 
