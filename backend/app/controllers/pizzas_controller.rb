@@ -1,5 +1,6 @@
 class PizzasController < ApplicationController
   before_action :set_pizza, only: %i[ show edit update destroy ]
+  protect_from_forgery with: :null_session
 
   # GET /pizzas or /pizzas.json
   def index
