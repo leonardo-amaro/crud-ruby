@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import Cardapio from './components/Cardapio.vue';
-import PizzaForm from './components/PizzaForm.vue';
-
 </script>
 
 <template>
-  <h1>Pizzaria CRUD</h1>
+  <header>
+    <h1>Pizzaria CRUD</h1>
+  </header>
+
   <main>
-    <Cardapio />
-    <PizzaForm />
+    <router-view />
   </main>
 </template>
 
 <style scoped>
-h1 {
+header {
   padding: 1.75rem 4rem;
   text-align: center;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  & h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
 }
 
 main {
