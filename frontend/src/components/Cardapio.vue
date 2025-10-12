@@ -11,8 +11,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div class="content">
     <h1>Cardápio</h1>
+
     <ul>
       <li v-for="pizza in pizzas" :key="pizza.id">
         <figure>
@@ -25,9 +26,15 @@ onMounted(async () => {
       </li>
     </ul>
   </div>
+
+  <router-link to="/new" id="add">Adicionar Pizza!</router-link>
 </template>
 
 <style scoped>
+.content {
+  margin-bottom: 2rem;
+}
+
 h1 {
   margin-bottom: 2rem;
 }
@@ -62,5 +69,15 @@ figcaption {
 
 h4 {
   text-align: right;
+}
+
+#add {
+  background-color: #9acd32;
+  color: #fdfdfd;
+  text-decoration: none;
+  font-size: medium;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
 }
 </style>
