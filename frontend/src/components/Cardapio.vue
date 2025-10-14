@@ -17,7 +17,10 @@ onMounted(async () => {
     <ul>
       <li v-for="pizza in pizzas" :key="pizza.id">
         <figure>
-          <img src="/images/pizza_cartoon.jpg" alt="Imagem de {{ pizza.nome }}">
+          <router-link :to="`/pizza/${pizza.id}`">
+            <img src="/images/pizza_cartoon.jpg" alt="Imagem de {{ pizza.nome }}">
+          </router-link>
+
           <figcaption>
             <h3>{{ pizza.nome }}</h3>
             <h4>R$ {{ pizza.preco }}</h4>
