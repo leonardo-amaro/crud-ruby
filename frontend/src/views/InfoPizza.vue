@@ -48,7 +48,9 @@ async function removerPizza() {
   <div v-if="pizza">
     <h2>{{ pizza.nome }}</h2>
     <p>Preço: R$ {{ pizza.preco }}</p>
-    <p>Editar pizza</p>
+    <router-link :to="`/pizza/${pizza.id}/edit`">
+      <p>Editar pizza</p>
+    </router-link>
     <button @click="removerPizza">Excluir pizza</button>
   </div>
 
