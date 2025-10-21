@@ -8,7 +8,7 @@ interface Pizza {
 }
 
 const props = defineProps<{
-  pizza?: Pizza
+  pizza?: Pizza | null
 }>()
 
 const emit = defineEmits<{
