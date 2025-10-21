@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/services/api'
 
 interface Pizza {
@@ -10,6 +10,7 @@ interface Pizza {
 }
 
 const route = useRoute()
+const router = useRouter()
 const pizza = ref<Pizza | null>(null)
 const erro = ref('')
 
@@ -24,6 +25,23 @@ onMounted(async () => {
     console.error("Erro na requisição: ", e)
   }
 })
+
+async function removerPizza() {
+  const id = route.params.id
+
+  try {
+    const confirmado = confirm("Tem ceteza que deseja remover esta pizza?")
+    if (!confirmado) return
+
+    const res = await api.delete(`/pizzas/${id}.json`)
+    console.log("Pizza removida:", res.data)
+
+    router.push("/")
+  } catch (e: any) {
+    erro.value = e.response?.data?.error || 'Erro ao deletar pizza'
+    console.error("Erro na requisição: ", e)
+  }
+}
 </script>
 
 <template>
@@ -31,7 +49,7 @@ onMounted(async () => {
     <h2>{{ pizza.nome }}</h2>
     <p>Preço: R$ {{ pizza.preco }}</p>
     <p>Editar pizza</p>
-    <button>Excluir pizza</button>
+    <button @click="removerPizza">Excluir pizza</button>
   </div>
 
   <p v-else-if="erro">{{ erro }}</p>
