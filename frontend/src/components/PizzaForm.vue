@@ -1,40 +1,50 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { api } from '@/services/api'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
 interface Pizza {
+  id?: number
   nome: string
   preco: number
 }
 
-const pizza = ref<Pizza>({ nome: '', preco: 0 })
-const mensagem = ref('')
+const props = defineProps<{
+  pizza?: Pizza
+}>()
 
-async function createPizza() {
-  try {
-    const res = await api.post('/pizzas.json', {
-      pizza: pizza.value,
-    })
-    mensagem.value = `Pizza criada com sucesso: ${res.data.nome}`
-    pizza.value = { nome: '', preco: 0 }
-  } catch (error: any) {
-    mensagem.value = `Erro: ${error.response?.data?.errors?.join(', ') || 'Falha ao criar'}`
-  }
+const emit = defineEmits<{
+  (e: 'submit', data: { nome: string; preco: number }): void
+}>()
+
+const nome = ref(props.pizza?.nome || '')
+const preco = ref(props.pizza?.preco || 0)
+
+// Atualiza valores caso as props mudem
+watch(
+  () => props.pizza,
+  (novaPizza) => {
+    if (novaPizza) {
+      nome.value = novaPizza.nome
+      preco.value = novaPizza.preco
+    }
+  },
+  { immediate: true }
+)
+
+function handleSubmit() {
+  emit('submit', { nome: nome.value, preco: preco.value })
 }
 </script>
 
 <template>
-  <h1>Adicionar Pizza</h1>
-
-  <form @submit.prevent="createPizza">
+  <form @submit.prevent="handleSubmit">
     <div class="campo-form">
       <label>Nome:</label>
-      <input v-model="pizza.nome" type="text" required />
+      <input v-model="nome" type="text" required />
     </div>
 
     <div class="campo-form">
       <label>Preço:</label>
-      <input v-model.number="pizza.preco" type="number" required />
+      <input v-model.number="preco" type="number" min="0" required />
     </div>
 
     <div class="campo-form">
@@ -42,8 +52,6 @@ async function createPizza() {
       <router-link to="/" id="cancelar">Cancelar</router-link>
     </div>
   </form>
-
-  <p v-if="mensagem">{{ mensagem }}</p>
 </template>
 
 <style scoped>
