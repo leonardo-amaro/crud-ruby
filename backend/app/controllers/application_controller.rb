@@ -1,5 +1,18 @@
-class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-  protect_from_forgery with: :exception, unless: -> { request.format.turbo_stream? }
+class ApplicationController < ActionController::API
+  before_action :authorize_request
+
+  def authorize_request
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    decoded = decode_token(header)
+    @current_user = User.find(decoded[:user_id])
+  rescue ActiveRecord::RecordNotFound, JWT::DecodeError
+    render json: { errors: 'Acesso não autorizado' }, status: :unauthorized
+  end
+
+  private
+
+  def decode_token(token)
+    JWT.decode(token, Rails.application.secrets.secret_key_base.to_s)[0].symbolize_keys
+  end
 end
