@@ -10,7 +10,7 @@ const router = useRouter()
 
 async function login() {
   try {
-    const res = await api.post('/login', { email: email.value, password: password.value })
+    const res = await api.post('/api/v1/login', { email: email.value, password: password.value })
     localStorage.setItem('token', res.data.token)
     router.push('/')
   } catch (e: any) {
